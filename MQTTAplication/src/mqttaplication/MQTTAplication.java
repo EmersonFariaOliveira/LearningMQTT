@@ -1,16 +1,26 @@
-package com.inatel.api;
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package mqttaplication;
 
-import org.eclipse.paho.client.mqttv3.MqttCallback;
 import org.eclipse.paho.client.mqttv3.MqttClient;
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
 
-public class MqttApplication {
+/**
+ *
+ * @author Emerson
+ */
+public class MQTTAplication {
 
+    /**
+     * @param args the command line arguments
+     */
     public static void main(String[] args) {
-
         //Configuração para conexão e cominicação com o broker
         String topic        = "MQTT/Examples";
         String content      = "teste";
@@ -64,4 +74,5 @@ public class MqttApplication {
             me.printStackTrace();
         }
     }
+    
 }
