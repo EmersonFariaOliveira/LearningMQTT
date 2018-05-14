@@ -17,7 +17,7 @@ import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
  *
  * @author Emerson
  */
-public class ClientMQTT {
+public class ClientMQTT implements MqttCallback {
 
     //Variáveis de configuração para conexão e cominicação com o broker
     private String content = "teste";
@@ -50,23 +50,12 @@ public class ClientMQTT {
             connOpts.setPassword(password.toCharArray());
             System.out.println("Connecting to broker: " + broker);
 
-            sampleClient.setCallback(new MqttCallback() {
-                public void connectionLost(Throwable cause) {
-                }
-                
-                public void messageArrived(String topic, MqttMessage message) throws Exception {
-                    System.out.println("topico: "+topic);
-                    System.out.println("Message: " + message.toString());
-                }
-
-                public void deliveryComplete(IMqttDeliveryToken token) {
-                }
-            });
-
             //Conecta com o broker
             sampleClient.connect(connOpts);
             System.out.println("Connected");
-            //sampleClient.subscribe("MQTT/Teste2");
+
+            //Trata as callbacks
+            sampleClient.setCallback(this);
 
         } catch (MqttException me) {
             System.out.println("reason " + me.getReasonCode());
@@ -89,7 +78,6 @@ public class ClientMQTT {
             message.setPayload(messageMQTT.getBytes());
             //Publicação no topico especifico
             sampleClient.publish(topic, message);
-            System.out.println("Message published");
 
         } catch (MqttException me) {
             System.out.println("reason " + me.getReasonCode());
@@ -117,6 +105,22 @@ public class ClientMQTT {
         }
     }
 
+    @Override
+    public void connectionLost(Throwable cause) {
+        System.out.println("Connection lost: " + cause);
+    }
+
+    @Override
+    public void messageArrived(String topic, MqttMessage message) throws Exception {
+        System.out.println("topico: " + topic);
+        System.out.println("Message: " + message.toString());
+    }
+
+    @Override
+    public void deliveryComplete(IMqttDeliveryToken token) {
+        System.out.println("Message published");
+    }
+
     public MqttClient getSampleClient() {
         return sampleClient;
     }
@@ -132,5 +136,4 @@ public class ClientMQTT {
     public void setBroker(String broker) {
         this.broker = broker;
     }
-
 }

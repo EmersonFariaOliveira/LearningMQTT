@@ -5,11 +5,7 @@
  */
 package mqttaplication;
 
-import org.eclipse.paho.client.mqttv3.MqttClient;
-import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.eclipse.paho.client.mqttv3.MqttException;
-import org.eclipse.paho.client.mqttv3.MqttMessage;
-import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
 
 /**
  *
@@ -19,6 +15,7 @@ public class MQTTAplication {
 
     /**
      * @param args the command line arguments
+     * @throws org.eclipse.paho.client.mqttv3.MqttException
      */
     public static void main(String[] args) throws MqttException {
 
@@ -33,11 +30,9 @@ public class MQTTAplication {
         ClientMQTT cliente = new ClientMQTT(broker, clientId, userName, password);
         cliente.BrokerConnection();
         
-        Subscribe subscribeTopic = new Subscribe(cliente.getSampleClient(), cliente.getBroker(), topic);
-        Thread t1 = new Thread(subscribeTopic);
-        
-        t1.start();
+        cliente.getSampleClient().subscribe(topic);
         cliente.TopicPublish(topic, menssage);
+
         //cliente.BrokerDisconnection();
 
     }
