@@ -19,19 +19,24 @@ public class MQTTAplication {
      */
     public static void main(String[] args) throws MqttException {
 
-        String broker = "tcp://m13.cloudmqtt.com:18617";
-        String clientId = "device1";
-        String userName = "erarxfqi";
-        String password = "tGirIYP7ESyW";
+        String broker = "tcp://192.168.0.103:1883";
+        String clientId = "clientid";
+        String password = "passwd";
+        String userName = "admins";
 
-        String topic = "MQTT/Teste";
+        String topic1 = "metrics/exchange1";
+        String topic2 = "metrics/exchange2";
         String menssage = "Ola Teste de Publicacao";
 
         ClientMQTT cliente = new ClientMQTT(broker, clientId, userName, password);
         cliente.BrokerConnection();
         
-        cliente.getSampleClient().subscribe(topic);
-        cliente.TopicPublish(topic, menssage);
+        cliente.getSampleClient().subscribe(topic1);
+        cliente.getSampleClient().subscribe(topic2);
+        System.out.println("Subscribed on topic: "+topic1);
+        System.out.println("Subscribed on topic: "+topic2);
+        System.out.println("---------------------------------------------");
+        //cliente.TopicPublish(topic, menssage);
 
         //cliente.BrokerDisconnection();
 

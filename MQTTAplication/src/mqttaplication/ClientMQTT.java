@@ -28,6 +28,9 @@ public class ClientMQTT implements MqttCallback {
     private String password;
     private MqttClient sampleClient;
 
+    public static final String ANSI_RESET = "\u001B[0m";
+    public static final String ANSI_GREEN = "\u001B[32m";
+
     private MemoryPersistence persistence = new MemoryPersistence();
 
     public ClientMQTT(String broker, String clientId, String username, String password) {
@@ -52,7 +55,8 @@ public class ClientMQTT implements MqttCallback {
 
             //Conecta com o broker
             sampleClient.connect(connOpts);
-            System.out.println("Connected");
+            System.out.println(ANSI_GREEN + "Connected!!" + ANSI_RESET);
+            System.out.println("---------------------------------------------");
 
             //Trata as callbacks
             sampleClient.setCallback(this);
@@ -112,7 +116,8 @@ public class ClientMQTT implements MqttCallback {
 
     @Override
     public void messageArrived(String topic, MqttMessage message) throws Exception {
-        System.out.println("topico: " + topic);
+        System.out.println("Receiving message");
+        System.out.println("From topic: " + topic);
         System.out.println("Message: " + message.toString());
     }
 
